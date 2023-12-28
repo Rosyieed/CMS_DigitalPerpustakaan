@@ -104,6 +104,8 @@
     <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 
+    {{-- sweet alert --}}
+    @include('sweetalert::alert')
 </body>
 
 </html>
