@@ -92,11 +92,12 @@ class BookController extends Controller
         // Validate the request
         $request->validate([
             'title' => 'required',
+            'author' => 'required',
             'description' => 'nullable',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer',
-            'file_path' => 'required|nullable|mimes:pdf|max:10240', // Max size 10MB
-            'cover_path' => 'required|nullable|image|mimes:jpeg,jpg,png|max:2048', // Max size 2MB
+            'file_path' => 'nullable|mimes:pdf|max:10240',
+            'cover_path' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ]);
 
         // Update process
