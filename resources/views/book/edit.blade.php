@@ -23,6 +23,12 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Penulis</label>
+                        <input type="text" name="author" class="form-control" value="{{ old('author', $book->author) }}"
+                            required>
+                    </div>
+
+                    <div class="form-group">
                         <label>Deskripsi</label>
                         <textarea name="description" class="form-control">{{ old('description', $book->description) }}</textarea>
                     </div>
