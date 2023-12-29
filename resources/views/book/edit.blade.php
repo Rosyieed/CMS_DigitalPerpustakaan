@@ -4,6 +4,8 @@
 
 @extends('layouts.master')
 
+@section('title', 'Ubah Buku | REN Digital Perpustakaan')
+
 @section('content')
     <div class="container">
         <a href="{{ route('books.index') }}" class="btn mb-3" style="background-color: #303030; color:white">Kembali</a>
@@ -55,7 +57,7 @@
                         <input type="file" name="file_path" class="form-control">
                         @if ($book->file_path)
                             <p class="text-muted mt-2">Buku PDF Sekarang: <a
-                                    href="{{ asset('storage/' . $book->file_path) }}" target="_blank">Unduh PDF</a></p>
+                                    href="{{ route('books.show', $book->id) }}" target="_blank">Lihat PDF</a></p>
                         @else
                             <p class="text-muted mt-2">Buku PDF Sekarang: Tidak Ada</p>
                         @endif
@@ -73,7 +75,7 @@
                         @endif
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn" style="background-color: #303030; color:white">Simpan</button>
                 </form>
             </div>
         </div>
