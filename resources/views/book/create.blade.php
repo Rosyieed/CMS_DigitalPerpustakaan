@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-        <a href="{{ route('books.index') }}" class="btn btn-secondary mb-3">Kembali</a>
+        <a href="{{ route('books.index') }}" class="btn mb-3" style="background-color: #303030; color:white">Kembali</a>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h4 class="m-0 font-weight-bold text-black">Tambah Buku</h4>
@@ -31,7 +31,7 @@
 
                     <div class="form-group">
                         <label>Kategori</label>
-                        <select name="category_id" class="form-control" required>
+                        <select name="category_id" class="form-control" id="select2" required>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach

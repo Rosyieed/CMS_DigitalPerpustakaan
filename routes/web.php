@@ -31,8 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('books', BookController::class);
+    Route::get('/download', [BookController::class, 'view_pdf'])->name('books.download');
+    Route::get('/books/{book}/pdf', [BookController::class, 'viewPDF'])->name('books.PDF');
 });
 
-Route::resource('books', BookController::class);
 
 require __DIR__.'/auth.php';

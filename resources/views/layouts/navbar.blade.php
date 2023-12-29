@@ -7,7 +7,7 @@
 
     <!-- Topbar Nav -->
     <a href="/index" class="nav-link m-3" style="text-decoration: none; color: rgb(141, 141, 141)">Beranda</a>
-    <a href="#" class="nav-link" style="text-decoration: none; color: rgb(141, 141, 141)">Kontak</a>
+    <a href="/index" class="nav-link m-3" style="text-decoration: none; color: rgb(141, 141, 141)">About</a>
 
     {{-- Topbar Navbar --}}
     <ul class="navbar-nav ml-auto">
@@ -165,7 +165,7 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('profile.edit')}}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                 </a>

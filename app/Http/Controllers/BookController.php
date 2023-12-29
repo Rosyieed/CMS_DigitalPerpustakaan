@@ -14,6 +14,9 @@ class BookController extends Controller
     {
         $books = Book::all();
         $userBooks = Book::where('user_id', Auth::id())->get();
+        $title = 'Hapus Buku!';
+        $text = "Apakah kamu yakin ingin menghapus?";
+        confirmDelete($title, $text);
         return view('book.index', compact('books', 'userBooks'));
     }
 
@@ -29,11 +32,26 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required',
             'author' => 'required',
-            'description' => 'nullable',
+            'description' => 'required',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer',
-            'file_path' => 'nullable|mimes:pdf|max:10240',
-            'cover_path' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'file_path' => 'required|mimes:pdf|max:10240',
+            'cover_path' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+        ], [
+            'title.required' => 'Judul tidak boleh kosong',
+            'author.required' => 'Penulis tidak boleh kosong',
+            'description.required' => 'Deskripsi tidak boleh kosong',
+            'category_id.required' => 'Kategori tidak boleh kosong',
+            'category_id.exists' => 'Kategori tidak ditemukan',
+            'quantity.required' => 'Jumlah Buku tidak boleh kosong',
+            'quantity.integer' => 'Jumlah Buku harus berupa angka',
+            'file_path.required' => 'File PDF tidak boleh kosong',
+            'file_path.mimes' => 'File Buku harus berupa PDF',
+            'file_path.max' => 'File Buku maksimal 10MB',
+            'cover_path.required' => 'File Sampul tidak boleh kosong',
+            'cover_path.image' => 'File Sampul harus berupa gambar',
+            'cover_path.mimes' => 'File Sampul harus berupa JPG, JPEG, atau PNG',
+            'cover_path.max' => 'File Sampul maksimal 2MB',
         ]);
 
         // Upload PDF
@@ -70,7 +88,8 @@ class BookController extends Controller
      */
     public function show(string $id)
     {
-
+        $books = Book::findOrFail($id);
+        return view('book.show', compact('books'));
     }
 
     /**
@@ -93,11 +112,24 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required',
             'author' => 'required',
-            'description' => 'nullable',
+            'description' => 'required',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer',
             'file_path' => 'nullable|mimes:pdf|max:10240',
             'cover_path' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+        ], [
+            'title.required' => 'Judul tidak boleh kosong',
+            'title.author' => 'Penulis tidak boleh kosong',
+            'description.required' => 'Deskripsi tidak boleh kosong',
+            'category_id.required' => 'Kategori tidak boleh kosong',
+            'category_id.exists' => 'Kategori tidak ditemukan',
+            'quantity.required' => 'Jumlah Buku tidak boleh kosong',
+            'quantity.integer' => 'Jumlah Buku harus berupa angka',
+            'file_path.mimes' => 'File PDF harus berupa PDF',
+            'file_path.max' => 'File PDF maksimal 10MB',
+            'cover_path.image' => 'File sampul harus berupa gambar',
+            'cover_path.mimes' => 'File sampul harus berupa JPG, JPEG, atau PNG',
+            'cover_path.max' => 'File sampul maksimal 2MB',
         ]);
 
         // Update process
@@ -139,12 +171,27 @@ class BookController extends Controller
     {
         $book = Book::findOrFail($id);
 
-        // Hapus file PDF dan gambar sampul dari storage
         Storage::disk('public')->delete($book->file_path);
         Storage::disk('public')->delete($book->cover_path);
 
-        // Hapus data buku dari database
         $book->delete();
         return redirect("/books")->with("success", "Buku Berhasil Dihapus.");
+    }
+
+    // public function json()
+    // {
+    //     return DataTables::of(Book::limit(10))->make(true);
+    // }
+
+    public function viewPDF(string $id)
+    {
+        $book = Book::findOrFail($id);
+        $pdfPath = Storage::path('public/' . $book->file_path);
+
+        if (!Storage::exists('public/' . $book->file_path) || !$book->file_path) {
+            return redirect()->back()->with('error', 'File PDF tidak ditemukan');
+        }
+
+        return response()->file($pdfPath, ['Content-Type' => 'application/pdf']);
     }
 }
