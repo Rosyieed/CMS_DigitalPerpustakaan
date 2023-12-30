@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('author');
             $table->text('description');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->integer('quantity');
             $table->string('file_path');
             $table->string('cover_path');

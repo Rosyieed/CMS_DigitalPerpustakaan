@@ -21,6 +21,6 @@ class CheckUser
             return $next($request);
         }
 
-        return redirect($role . '/dashboard');
+        return redirect('/dashboard');
     }
 }

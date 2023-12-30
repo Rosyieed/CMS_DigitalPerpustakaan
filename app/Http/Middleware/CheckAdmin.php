@@ -21,6 +21,6 @@ class CheckAdmin
             return $next($request);
         }
 
-        return redirect($role . '/dashboard');
+        return redirect('/books');
     }
 }

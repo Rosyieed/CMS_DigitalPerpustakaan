@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\SocialController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,18 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
-Route::get('/index', function(){
-    return view('layouts.master');
-});
+Route::get('/auth/redirect', [SocialController::class, 'redirect'])->name('google.redirect');
+Route::get('/google/redirect', [SocialController::class, 'googleCallback'])->name('google.callback');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth', 'verified')->group(function () {
 
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -35,7 +34,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('books', BookController::class);
     Route::get('/download', [BookController::class, 'view_pdf'])->name('books.download');
     Route::get('/books/{book}/pdf', [BookController::class, 'viewPDF'])->name('books.PDF');
+
+    Route::middleware('checkAdmin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
+        Route::resource('categories', CategoryController::class);
+    });
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
