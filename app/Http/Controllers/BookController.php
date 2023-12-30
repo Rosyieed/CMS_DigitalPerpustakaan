@@ -12,12 +12,15 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::all();
-        $userBooks = Book::where('user_id', Auth::id())->get();
+        if (Auth::user()->role === 'admin') {
+            $books = Book::all();
+        } else {
+            $books = Book::where('user_id', Auth::user()->id)->get();
+        }
         $title = 'Hapus Buku!';
         $text = "Apakah kamu yakin ingin menghapus?";
         confirmDelete($title, $text);
-        return view('book.index', compact('books', 'userBooks'));
+        return view('book.index', compact('books'));
     }
 
     public function create()
@@ -32,7 +35,7 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required',
             'author' => 'required',
-            'description' => 'required',
+            'description' => 'required|min:30',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer',
             'file_path' => 'required|mimes:pdf|max:10240',
@@ -41,6 +44,7 @@ class BookController extends Controller
             'title.required' => 'Judul tidak boleh kosong',
             'author.required' => 'Penulis tidak boleh kosong',
             'description.required' => 'Deskripsi tidak boleh kosong',
+            'description.min' => 'Deskripsi minimal 30 karakter',
             'category_id.required' => 'Kategori tidak boleh kosong',
             'category_id.exists' => 'Kategori tidak ditemukan',
             'quantity.required' => 'Jumlah Buku tidak boleh kosong',
@@ -80,7 +84,8 @@ class BookController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('books.index')->with("success", "Buku Berhasil Ditambahkan.");
+        toast('Buku Berhasil Ditambahkan', 'success');
+        return redirect()->route('books.index');
     }
 
     /**
@@ -112,7 +117,7 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required',
             'author' => 'required',
-            'description' => 'required',
+            'description' => 'required|min:30',
             'category_id' => 'required|exists:categories,id',
             'quantity' => 'required|integer',
             'file_path' => 'nullable|mimes:pdf|max:10240',
@@ -121,6 +126,7 @@ class BookController extends Controller
             'title.required' => 'Judul tidak boleh kosong',
             'title.author' => 'Penulis tidak boleh kosong',
             'description.required' => 'Deskripsi tidak boleh kosong',
+            'description.min' => 'Deskripsi minimal 30 karakter',
             'category_id.required' => 'Kategori tidak boleh kosong',
             'category_id.exists' => 'Kategori tidak ditemukan',
             'quantity.required' => 'Jumlah Buku tidak boleh kosong',
@@ -161,7 +167,8 @@ class BookController extends Controller
             'cover_path' => $cover_path,
         ]);
 
-        return redirect()->route('books.index')->with('success', 'Buku Berhasil Diubah');
+        toast('Buku Berhasil Diubah', 'success');
+        return redirect()->route('books.index');
     }
 
     /**
@@ -175,13 +182,9 @@ class BookController extends Controller
         Storage::disk('public')->delete($book->cover_path);
 
         $book->delete();
+        toast('Buku Berhasil Dihapus.','success');
         return redirect("/books")->with("success", "Buku Berhasil Dihapus.");
     }
-
-    // public function json()
-    // {
-    //     return DataTables::of(Book::limit(10))->make(true);
-    // }
 
     public function viewPDF(string $id)
     {
@@ -189,7 +192,7 @@ class BookController extends Controller
         $pdfPath = Storage::path('public/' . $book->file_path);
 
         if (!Storage::exists('public/' . $book->file_path) || !$book->file_path) {
-            return redirect()->back()->with('error', 'File PDF tidak ditemukan');
+            return redirect()->back()->with('error', 'File Buku PDF tidak ditemukan');
         }
 
         return response()->file($pdfPath, ['Content-Type' => 'application/pdf']);

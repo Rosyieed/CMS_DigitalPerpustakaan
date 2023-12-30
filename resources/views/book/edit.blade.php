@@ -37,7 +37,10 @@
 
                     <div class="form-group">
                         <label>Kategori</label>
-                        <select name="category_id" class="form-control" required>
+                        <select name="category_id" class="form-control" id="select2" required>
+                            @if ($book->category_id == null)
+                                <option value="" selected disabled>Kosong</option>
+                            @endif
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
                                     {{ $book->category_id == $category->id ? 'selected' : '' }}>
@@ -56,8 +59,8 @@
                         <label>Buku PDF</label>
                         <input type="file" name="file_path" class="form-control">
                         @if ($book->file_path)
-                            <p class="text-muted mt-2">Buku PDF Sekarang: <a
-                                    href="{{ route('books.show', $book->id) }}" target="_blank">Lihat PDF</a></p>
+                            <p class="text-muted mt-2">Buku PDF Sekarang: <a href="{{ route('books.PDF', $book->id) }}"
+                                    target="_blank">Lihat PDF</a></p>
                         @else
                             <p class="text-muted mt-2">Buku PDF Sekarang: Tidak Ada</p>
                         @endif
@@ -66,12 +69,14 @@
                     <div class="form-group">
                         <label>Cover Buku</label>
                         <input type="file" name="cover_path" class="form-control">
-                        @if ($book->cover_path)
+
+                        @if (!Storage::exists('public/' . $book->cover_path) || !$book->cover_path)
+                            <p class="text-muted mt-2">Cover Sekarang: Tidak Ada</p>
+                            <img src="{{ asset('assets/img/null.png') }}" alt="Cover Image" style="max-width: 200px">
+                        @else
                             <p class="text-muted mt-2">Cover Sekarang:</p>
                             <img src="{{ asset('storage/' . $book->cover_path) }}" alt="Cover Image"
                                 style="max-width: 200px;">
-                        @else
-                            <p class="text-muted mt-2">Cover Sekarang: Tidak Ada</p>
                         @endif
                     </div>
 

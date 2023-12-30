@@ -34,18 +34,20 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['default' => 'user'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'user',
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        toast('Selamat Datang ' . Auth::user()->name . '<br>' . 'REN - Digital Perpustakaan', 'success');
+        return redirect(RouteServiceProvider::BOOKS);
     }
 }

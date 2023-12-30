@@ -10,9 +10,10 @@
                     Buku</a>
             </div>
             <div class="card-body">
-                <table id="datatables" class="table table-striped table-hover table-bordered table-responsive">
+                <table id="datatables" class="table table-striped table-hover table-bordered table-responsive-lg">
                     <thead>
                         <tr><b>
+                                <th>No</th>
                                 <th>Judul</th>
                                 <th>Deskripsi</th>
                                 <th>Kategori</th>
@@ -24,11 +25,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($books as $book)
+                        @foreach ($books as $index => $book)
                             <tr>
+                                <td class="text-center">{{ $index + 1 }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ Str::limit($book->description, 40) }}</td>
-                                <td>{{ $book->category->name }}</td>
+                                <td>{{ Str::limit($book->description, 30) }}</td>
+                                @if ($book->category_id == null)
+                                    <td>Kosong</td>
+                                @else
+                                    <td>{{ $book->category->name }}</td>
+                                @endif
                                 <td>{{ $book->quantity }}</td>
                                 <td>
                                     <a href="{{ route('books.PDF', $book->id) }}" target="_blank">Lihat Buku</a>
@@ -49,18 +55,9 @@
                                         <a href="{{ route('books.destroy', $book->id) }}" class="btn btn-danger"
                                             data-confirm-delete="true">Hapus</a>
                                     </div>
-                                    {{-- <form method="POST" action="{{ route('books.destroy', $book->id) }}" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah kamu yakin?')">Delete</button>
-                                    </form> --}}
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5">No books available.</td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
