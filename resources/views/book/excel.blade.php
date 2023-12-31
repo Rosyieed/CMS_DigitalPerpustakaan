@@ -17,6 +17,7 @@
             <tr>
                 <th style="text-align: center">No</th>
                 <th style="text-align: center">Judul</th>
+                <th style="text-align: center">Penulis</th>
                 <th style="text-align: center">Deskripsi</th>
                 <th style="text-align: center">Kategori</th>
                 <th style="text-align: center">Jumlah</th>
@@ -27,6 +28,7 @@
                 <tr>
                     <td style="text-align: center;">{{ $index + 1 }}</td>
                     <td>{{ $book->title }}</td>
+                    <td>{{ $book->author }}</td>
                     <td>{{ $book->description }}
                     </td>
                     @if ($book->category_id == null)

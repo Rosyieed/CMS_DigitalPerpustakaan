@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kuantitas</label>
+                        <label>Jumlah</label>
                         <input type="number" name="quantity" class="form-control" required>
                     </div>
 
