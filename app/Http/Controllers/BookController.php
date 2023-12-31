@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Book;
 use App\Models\Category;
+use Barryvdh\DomPDF\PDF;
+use App\Exports\ExportBook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookController extends Controller
 {
@@ -182,8 +187,8 @@ class BookController extends Controller
         Storage::disk('public')->delete($book->cover_path);
 
         $book->delete();
-        toast('Buku Berhasil Dihapus.','success');
-        return redirect("/books")->with("success", "Buku Berhasil Dihapus.");
+        toast('Buku Berhasil Dihapus', 'success');
+        return redirect("/books");
     }
 
     public function viewPDF(string $id)
@@ -196,5 +201,22 @@ class BookController extends Controller
         }
 
         return response()->file($pdfPath, ['Content-Type' => 'application/pdf']);
+    }
+
+    public function generatePDF()
+    {
+        if (Auth::user()->role === 'admin') {
+            $books = Book::all();
+        } else {
+            $books = Book::where('user_id', Auth::user()->id)->get();
+        }
+        $pdf = FacadePdf::loadView('book.pdf', compact('books'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Buku ' . now()->translatedFormat('j F Y') . '.pdf');
+    }
+
+    public function generateExcel()
+    {
+        return Excel::download(new ExportBook, 'Laporan Buku ' . now()->translatedFormat('j F Y') . '.xlsx');
     }
 }

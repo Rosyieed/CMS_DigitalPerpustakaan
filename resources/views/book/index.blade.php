@@ -6,18 +6,26 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h4 class="m-0 font-weight-bold" style="color: black">Data Buku</h4>
-                <a href="{{ route('books.create') }}" class="btn mt-3 text-white" style="background-color: #303030">Tambah
-                    Buku</a>
+                <div class="d-sm-flex align-items-center justify-content-between mt-3">
+                    <a href="{{ route('books.create') }}" class="btn text-white" style="background-color: #303030">Tambah
+                        Buku</a>
+                    <div class="btn-group" role="group">
+                        <a href="{{ route('books.generatePDF') }}" class="btn btn-primary" target="_blank"><i
+                                class="fas fa-download fa-sm text-white"></i> Generate PDF</a>
+                        <a href="{{ route('books.generateExcel') }}" class="btn btn-success" target="_blank"><i
+                                class="fas fa-download fa-sm text-white"></i> Generate Excel</a>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <table id="datatables" class="table table-striped table-hover table-bordered table-responsive-lg">
-                    <thead>
+                    <thead class="text-center">
                         <tr><b>
                                 <th>No</th>
                                 <th>Judul</th>
                                 <th>Deskripsi</th>
                                 <th>Kategori</th>
-                                <th>Kuantitas</th>
+                                <th>Jumlah</th>
                                 <th>Buku</th>
                                 <th>Foto Sampul</th>
                                 <th>Aksi</th>
@@ -28,14 +36,14 @@
                         @foreach ($books as $index => $book)
                             <tr>
                                 <td class="text-center">{{ $index + 1 }}</td>
-                                <td>{{ $book->title }}</td>
-                                <td>{{ Str::limit($book->description, 30) }}</td>
+                                <td>{{ Str::limit($book->title, 30) }}</td>
+                                <td>{{ Str::limit($book->description, 20) }}</td>
                                 @if ($book->category_id == null)
                                     <td>Kosong</td>
                                 @else
-                                    <td>{{ $book->category->name }}</td>
+                                    <td class="text-center">{{ $book->category->name }}</td>
                                 @endif
-                                <td>{{ $book->quantity }}</td>
+                                <td class="text-center">{{ $book->quantity }}</td>
                                 <td>
                                     <a href="{{ route('books.PDF', $book->id) }}" target="_blank">Lihat Buku</a>
                                 </td>

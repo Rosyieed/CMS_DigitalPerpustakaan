@@ -10,8 +10,8 @@
                     Kategori</a>
             </div>
             <div class="card-body">
-                <table id="datatables" class="table table-striped table-hover table-bordered table-responsive-lg">
-                    <thead>
+                <table id="datatables" class="table table-striped table-hover table-bordered table-responsive">
+                    <thead class="text-center">
                         <tr><b>
                                 <th>No.</th>
                                 <th>Nama Kategori</th>
@@ -19,7 +19,7 @@
                             </b>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         @foreach($categories as $index => $category)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
