@@ -23,7 +23,7 @@
                         <tr><b>
                                 <th>No</th>
                                 <th>Judul</th>
-                                <th>Deskripsi</th>
+                                <th>Penulis</th>
                                 <th>Kategori</th>
                                 <th>Jumlah</th>
                                 <th>Buku</th>
@@ -37,7 +37,7 @@
                             <tr>
                                 <td class="text-center">{{ $index + 1 }}</td>
                                 <td>{{ Str::limit($book->title, 30) }}</td>
-                                <td>{{ Str::limit($book->description, 20) }}</td>
+                                <td>{{ Str::limit($book->author, 20) }}</td>
                                 @if ($book->category_id == null)
                                     <td>Kosong</td>
                                 @else
