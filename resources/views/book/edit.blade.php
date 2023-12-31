@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kuantitas</label>
+                        <label>Jumlah</label>
                         <input type="number" name="quantity" class="form-control"
                             value="{{ old('quantity', $book->quantity) }}" required>
                     </div>

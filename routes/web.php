@@ -1,11 +1,13 @@
 <?php
 
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('books', BookController::class);
     Route::get('/download', [BookController::class, 'view_pdf'])->name('books.download');
     Route::get('/books/{book}/pdf', [BookController::class, 'viewPDF'])->name('books.PDF');
+    Route::get('books/pdf/download', [BookController::class, 'generatePDF'])->name('books.generatePDF');
+    Route::get('/books/excel/download', [BookController::class, 'generateExcel'])->name('books.generateExcel');
 
     Route::middleware('checkAdmin')->group(function () {
         Route::get('/dashboard', function () {
