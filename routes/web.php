@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 /*
@@ -40,9 +41,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/books/excel/download', [BookController::class, 'generateExcel'])->name('books.generateExcel');
 
     Route::middleware('checkAdmin')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
         Route::resource('categories', CategoryController::class);
     });
 });
