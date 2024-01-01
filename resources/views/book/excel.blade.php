@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{now()->translatedFormat('d-m-Y')}}</title>
+    <title>{{ now()->translatedFormat('d-m-Y') }}</title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($books as $index => $book)
+            @forelse ($books as $index => $book)
                 <tr>
                     <td style="text-align: center;">{{ $index + 1 }}</td>
                     <td>{{ $book->title }}</td>
@@ -38,7 +38,11 @@
                     @endif
                     <td style="text-align: center">{{ $book->quantity }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" style="text-align: center">Tidak ada data yang tersedia</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 

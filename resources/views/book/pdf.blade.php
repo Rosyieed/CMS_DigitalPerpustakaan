@@ -54,7 +54,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($books as $index => $book)
+            @forelse ($books as $index => $book)
                 <tr>
                     <td style="text-align: center">{{ $index + 1 }}</td>
                     <td>{{ $book->title }}</td>
@@ -68,7 +68,11 @@
                     @endif
                     <td style="text-align: center">{{ $book->quantity }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" style="text-align: center">Tidak ada data yang tersedia</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 

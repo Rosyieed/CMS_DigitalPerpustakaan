@@ -7,7 +7,7 @@
 
     <!-- Topbar Nav -->
     @if (Auth::user()->role == 'admin')
-        <a href="/dashboard" class="nav-link m-3" style="text-decoration: none; color: rgb(141, 141, 141)">Beranda</a>
+        <a href="/dashboard" class="nav-link m-3" style="text-decoration: none; color: rgb(141, 141, 141)">Dashboard</a>
     @else
         <a href="/books" class="nav-link m-3" style="text-decoration: none; color: rgb(141, 141, 141)">Buku</a>
     @endif
