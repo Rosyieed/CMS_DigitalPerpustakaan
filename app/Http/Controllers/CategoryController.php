@@ -33,7 +33,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|unique:categories|max:255|regex:/^[a-zA-Z\s]*$/',
         ], [
             'name.required' => 'Nama kategori harus diisi',
@@ -42,9 +42,8 @@ class CategoryController extends Controller
             'name.regex' => 'Nama kategori hanya boleh berisi huruf',
         ]);
 
-        Category::create([
-            'name' => $request->name,
-        ]);
+        Category::create($validatedData);
+
         toast('Kategori Berhasil Ditambahkan', 'success');
         return redirect()->route('categories.index');
     }
@@ -74,7 +73,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
 
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|unique:categories|max:255|regex:/^[a-zA-Z\s]*$/',
         ], [
             'name.required' => 'Nama kategori harus diisi',
@@ -83,11 +82,9 @@ class CategoryController extends Controller
             'name.regex' => 'Nama kategori hanya boleh berisi huruf',
         ]);
 
-        $category->update([
-            'name' => $request->name,
-        ]);
+        $category->update($validatedData);
 
-        toast('Kategori Berhasil Diubah','success');
+        toast('Kategori Berhasil Diubah', 'success');
         return redirect()->route('categories.index');
     }
 
@@ -100,7 +97,7 @@ class CategoryController extends Controller
         Book::where('category_id', $category->id)->update(['category_id' => null]);
         $category->delete();
 
-        toast('Kategori Berhasil Dihapus','success');
+        toast('Kategori Berhasil Dihapus', 'success');
         return redirect()->route('categories.index');
     }
 }

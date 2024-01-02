@@ -36,8 +36,8 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request
-        $request->validate([
+
+        $validatedData = $request->validate([
             'title' => 'required',
             'author' => 'required',
             'description' => 'required|min:30',
@@ -63,31 +63,14 @@ class BookController extends Controller
             'cover_path.max' => 'File Sampul maksimal 2MB',
         ]);
 
-        // Upload PDF
-        if ($request->hasFile('file_path')) {
-            $file_path = $request->file('file_path')->store('pdfs', 'public');
-        } else {
-            $file_path = null;
-        }
+        $file_path = $request->hasFile('file_path') ? $request->file('file_path')->store('pdfs', 'public') : null;
+        $cover_path = $request->hasFile('cover_path') ? $request->file('cover_path')->store('covers', 'public') : null;
 
-        // Upload Cover Image
-        if ($request->hasFile('cover_path')) {
-            $cover_path = $request->file('cover_path')->store('covers', 'public');
-        } else {
-            $cover_path = null;
-        }
-
-        // Create Book
-        Book::create([
-            'title' => $request->input('title'),
-            'author' => $request->input('author'),
-            'description' => $request->input('description'),
-            'category_id' => $request->input('category_id'),
-            'quantity' => $request->input('quantity'),
+        Book::create(array_merge($validatedData, [
             'file_path' => $file_path,
             'cover_path' => $cover_path,
             'user_id' => Auth::id(),
-        ]);
+        ]));
 
         toast('Buku Berhasil Ditambahkan', 'success');
         return redirect()->route('books.index');
@@ -118,8 +101,10 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validate the request
-        $request->validate([
+
+        $book = Book::findOrFail($id);
+
+        $validatedData = $request->validate([
             'title' => 'required',
             'author' => 'required',
             'description' => 'required|min:30',
@@ -129,7 +114,7 @@ class BookController extends Controller
             'cover_path' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
             'title.required' => 'Judul tidak boleh kosong',
-            'title.author' => 'Penulis tidak boleh kosong',
+            'author.required' => 'Penulis tidak boleh kosong',
             'description.required' => 'Deskripsi tidak boleh kosong',
             'description.min' => 'Deskripsi minimal 30 karakter',
             'category_id.required' => 'Kategori tidak boleh kosong',
@@ -143,34 +128,17 @@ class BookController extends Controller
             'cover_path.max' => 'File sampul maksimal 2MB',
         ]);
 
-        // Update process
-        $book = Book::findOrFail($id);
-
-        // Handle PDF
         if ($request->hasFile('file_path')) {
             Storage::disk('public')->delete($book->file_path);
-            $file_path = $request->file('file_path')->store('pdfs', 'public');
-        } else {
-            $file_path = $book->file_path;
+            $validatedData['file_path'] = $request->file('file_path')->store('pdfs', 'public');
         }
 
-        // Handle Cover
         if ($request->hasFile('cover_path')) {
             Storage::disk('public')->delete($book->cover_path);
-            $cover_path = $request->file('cover_path')->store('covers', 'public');
-        } else {
-            $cover_path = $book->cover_path;
+            $validatedData['cover_path'] = $request->file('cover_path')->store('covers', 'public');
         }
 
-        // Update new data
-        $book->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'category_id' => $request->input('category_id'),
-            'quantity' => $request->input('quantity'),
-            'file_path' => $file_path,
-            'cover_path' => $cover_path,
-        ]);
+        $book->update($validatedData);
 
         toast('Buku Berhasil Diubah', 'success');
         return redirect()->route('books.index');

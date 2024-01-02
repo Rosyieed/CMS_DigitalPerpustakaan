@@ -7,11 +7,11 @@
             <h6 class="m-0 font-weight-bold text-black text-center">{{ $books->title }}</h6>
             @if (!Storage::exists('public/' . $books->cover_path) || !$books->cover_path)
                 <p class="text-center m-3">
-                    <img src="{{ asset('assets/img/null.png') }}" alt="Cover Image" style="max-width: 400px">
+                    <img src="{{ asset('assets/img/null.png') }}" alt="Cover Image" style="max-width: 2200px; max-height: 200px">
                 </p>
             @else
                 <p class="text-center m-3">
-                    <img src="{{ asset('storage/' . $books->cover_path) }}" alt="Cover Image" style="max-width: 400px;">
+                    <img src="{{ asset('storage/' . $books->cover_path) }}" alt="Cover Image" style="max-width: 2200px; max-height: 200px;">
                 </p>
             @endif
         </div>
