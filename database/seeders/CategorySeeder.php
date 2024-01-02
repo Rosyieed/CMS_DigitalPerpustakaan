@@ -18,9 +18,7 @@ class CategorySeeder extends Seeder
         $category->save();
 
         $category = new Category();
-        $category->name = "Novel";
+        $category->name = "Komedi";
         $category->save();
-
-
     }
 }
