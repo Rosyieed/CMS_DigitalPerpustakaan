@@ -30,7 +30,7 @@ class BooksbyCategoryChart
             }
 
             return $this->chart->pieChart()
-                ->setWidth(400)
+                ->setWidth(360)
                 ->setFontFamily('nunito')
                 ->addData($data)
                 ->setLabels($labels);

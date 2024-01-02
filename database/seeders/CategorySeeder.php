@@ -14,11 +14,13 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $category = new Category();
-        $category->name = "Fiction";
+        $category->name = "Fiksi";
         $category->save();
 
         $category = new Category();
-        $category->name = "Non-Fiction";
+        $category->name = "Novel";
         $category->save();
+
+
     }
 }

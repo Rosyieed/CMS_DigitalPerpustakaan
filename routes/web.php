@@ -1,6 +1,5 @@
 <?php
 
-use Barryvdh\DomPDF\PDF;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use Laravel\Socialite\Facades\Socialite;
@@ -8,7 +7,6 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 /*
 |--------------------------------------------------------------------------
