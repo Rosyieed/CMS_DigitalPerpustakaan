@@ -29,7 +29,7 @@
                     <td style="text-align: center;">{{ $index + 1 }}</td>
                     <td>{{ $book->title }}</td>
                     <td>{{ $book->author }}</td>
-                    <td>{{ $book->description }}
+                    <td>{!! $book->description !!}
                     </td>
                     @if ($book->category_id == null)
                         <td style="text-align: center">Kosong</td>

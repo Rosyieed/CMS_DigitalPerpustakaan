@@ -7,7 +7,7 @@
             <div class="card-header py-3">
                 <h4 class="m-0 font-weight-bold" style="color: black">Data Buku</h4>
                 <div class="d-sm-flex align-items-center justify-content-between mt-3">
-                    <a href="{{ route('books.create') }}" class="btn text-white" style="background-color: #303030">Tambah
+                    <a href="{{ route('books.create') }}" class="btn text-white" style="background-color: #303030"><i class="fas fa-plus-circle"></i> Tambah
                         Buku</a>
                     <div class="btn-group" role="group">
                         <a href="{{ route('books.generatePDF') }}" class="btn btn-primary" target="_blank"><i
@@ -39,7 +39,7 @@
                                 <td>{{ Str::limit($book->title, 30) }}</td>
                                 <td>{{ Str::limit($book->author, 20) }}</td>
                                 @if ($book->category_id == null)
-                                    <td>Kosong</td>
+                                    <td class="text-center">Kosong</td>
                                 @else
                                     <td class="text-center">{{ $book->category->name }}</td>
                                 @endif
@@ -58,10 +58,10 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-secondary">Lihat</a>
-                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary">Ubah</a>
+                                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-secondary"><i class="fas fa-eye"></i></a>
+                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="{{ route('books.destroy', $book->id) }}" class="btn btn-danger"
-                                            data-confirm-delete="true">Hapus</a>
+                                            data-confirm-delete="true"><i class="fas fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
