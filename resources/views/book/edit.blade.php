@@ -32,7 +32,10 @@
 
                     <div class="form-group">
                         <label>Deskripsi</label>
-                        <textarea name="description" class="form-control">{{ old('description', $book->description) }}</textarea>
+                        <input id="x" type="hidden" name="description" value="{{ old('description', $book->description) }}">
+                        <div class="trix-container">
+                            <trix-editor input="x"></trix-editor>
+                        </div>
                     </div>
 
                     <div class="form-group">

@@ -6,7 +6,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h4 class="m-0 font-weight-bold" style="color: black">Data Kategori</h4>
-                <a href="{{ route('categories.create') }}" class="btn mt-3 text-white" style="background-color: #303030">Tambah
+                <a href="{{ route('categories.create') }}" class="btn mt-3 text-white" style="background-color: #303030"><i class="fas fa-plus-circle"></i> Tambah
                     Kategori</a>
             </div>
             <div class="card-body">
@@ -27,11 +27,11 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a href="{{ route('categories.show', $category->id) }}"
-                                            class="btn btn-secondary">Lihat</a>
+                                            class="btn btn-secondary"><i class="fas fa-eye"></i></a>
                                         <a href="{{ route('categories.edit', $category->id) }}"
-                                            class="btn btn-primary">Ubah</a>
+                                            class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
                                         <a href="{{ route('categories.destroy', $category->id) }}" class="btn btn-danger"
-                                            data-confirm-delete="true">Hapus</a>
+                                            data-confirm-delete="true"><i class="fas fa-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>

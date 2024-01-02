@@ -5,7 +5,7 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container">
+    <div class="container">
         <a href="{{ route('books.index') }}" class="btn mb-3" style="background-color: #303030; color:white">Kembali</a>
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -26,7 +26,10 @@
 
                     <div class="form-group">
                         <label>Deskripsi</label>
-                        <textarea name="description" class="form-control"></textarea>
+                        <input id="x" type="hidden" name="description" value="{{ old('body') }}">
+                        <div class="trix-container">
+                            <trix-editor input="x"></trix-editor>
+                        </div>
                     </div>
 
                     <div class="form-group">
