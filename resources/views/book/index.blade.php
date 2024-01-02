@@ -58,10 +58,10 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-secondary"><i class="fas fa-eye"></i></a>
-                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-secondary">Lihat</a>
+                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary">Ubah</a>
                                         <a href="{{ route('books.destroy', $book->id) }}" class="btn btn-danger"
-                                            data-confirm-delete="true"><i class="fas fa-trash"></i></a>
+                                            data-confirm-delete="true">Hapus</a>
                                     </div>
                                 </td>
                             </tr>

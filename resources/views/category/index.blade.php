@@ -27,11 +27,11 @@
                                 <td>
                                     <div class="btn-group" role="group">
                                         <a href="{{ route('categories.show', $category->id) }}"
-                                            class="btn btn-secondary"><i class="fas fa-eye"></i></a>
+                                            class="btn btn-secondary">Lihat</a>
                                         <a href="{{ route('categories.edit', $category->id) }}"
-                                            class="btn btn-primary"><i class="fas fa-pencil-alt"></i></a>
+                                            class="btn btn-primary">Ubah</a>
                                         <a href="{{ route('categories.destroy', $category->id) }}" class="btn btn-danger"
-                                            data-confirm-delete="true"><i class="fas fa-trash"></i></a>
+                                            data-confirm-delete="true">Hapus</a>
                                     </div>
                                 </td>
                             </tr>
