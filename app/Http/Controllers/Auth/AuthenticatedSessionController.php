@@ -29,7 +29,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (Auth::user()->role == 'admin') {
+            toast('Selamat datang Admin' . '<br>' . 'REN - Digital Perpustakaan','success');
+            return redirect()->intended(RouteServiceProvider::DASHBOARD);
+        }
+        toast('Selamat Datang ' . Auth::user()->name . '<br>' . 'REN - Digital Perpustakaan', 'success');
+        return redirect()->intended(RouteServiceProvider::BOOKS);
     }
 
     /**

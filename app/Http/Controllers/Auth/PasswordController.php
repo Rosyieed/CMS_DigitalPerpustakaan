@@ -15,6 +15,24 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+        if (! Hash::check($request->current_password, $request->user()->password)) {
+            return back()->withErrors([
+                'current_password' => __('Password yang anda masukkan salah.'),
+            ])->withInput();
+        }
+
+        if ($request->current_password === $request->password) {
+            return back()->withErrors([
+                'password' => __('Password baru tidak boleh sama dengan password lama.'),
+            ])->withInput();
+        }
+
+        if ($request->password !== $request->password_confirmation) {
+            return back()->withErrors([
+                'password' => __('Konfirmasi password tidak cocok'),
+            ])->withInput();
+        }
+
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
@@ -24,6 +42,7 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('status', 'password-updated');
+        toast('Password Berhasil Diperbarui','success');
+        return back();
     }
 }

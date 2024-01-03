@@ -33,6 +33,10 @@ class NewPasswordController extends Controller
             'token' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'email.required' => 'Mohon isi email anda',
+            'password.required' => 'Mohon isi password anda',
+            'confirmed' => 'Konfirmasi password tidak sama',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -54,8 +58,8 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
+                    ? redirect()->back()->with('status', __('Password berhasil diubah!'))
                     : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+                            ->withErrors(['email' => __('Gagal mengubah password.')]);
     }
 }

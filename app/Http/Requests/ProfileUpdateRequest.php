@@ -16,8 +16,17 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'name' => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z\s]+$/u'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Kolom nama wajib diisi.',
+            'name.string' => 'Kolom nama harus berupa teks.',
+            'name.max' => 'Panjang nama tidak boleh melebihi :max karakter.',
+            'name.regex' => 'Format nama tidak valid. Hanya huruf dan spasi yang diperbolehkan.',
         ];
     }
 }
