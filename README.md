@@ -49,7 +49,7 @@ Assignment Magang MSIB6 Detik.com
 ## Instalation & Run (git clone) :
 ```bash
 - git clone https://github.com/Rosyieed/CMS_DigitalPerpustakaan.git 
-- composer install or composer update (if ur php version under 8.2)
+- composer install or composer update (if your php version under 8.2)
 - npm install
 - npm run build
 - php artisan storage:link (for link storage to public)
