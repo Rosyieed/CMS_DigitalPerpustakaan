@@ -53,9 +53,6 @@ Assignment Magang MSIB6 Detik.com
 - npm install
 - npm run build
 - php artisan storage:link (for link storage to public)
-- php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider" (For dom PDF)
-- php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config (For Generate Excel)
-- php artisan vendor:publish --tag=larapex-charts-config (For Larapex Chart)
 - php artisan key:generate
 - php artisan migrate
 - php artisan db:seed
