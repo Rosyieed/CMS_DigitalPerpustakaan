@@ -1,5 +1,4 @@
-# Digital Perpustakaan (CMS)
-Assignment Magang MSIB6 Detik.com
+# Sistem Pengelolaan Buku (CMS)
 
 
 ## Features :
